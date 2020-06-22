@@ -1,4 +1,4 @@
-# arrayvisualiser
+# Array-Visualiser
 
 A Flutter App that helps you visualise the arrays.
 
