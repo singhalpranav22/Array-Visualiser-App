@@ -17,7 +17,7 @@ class TestScreen extends StatefulWidget {
 class _TestScreen extends State<TestScreen> {
 
   int s=0;
-  int arraysize=250;
+  int arraysize=400;
    var duration=3000;
    String dropdownValue="Merge Sort";
   List<int> nums=[];
@@ -68,169 +68,7 @@ class _TestScreen extends State<TestScreen> {
   }
  menu()
  {
-   showModalBottomSheet(context: context, builder: (builder)
-   {
-     return StatefulBuilder(
-         builder: (context, setState) {
-           return Container(
 
-             child: Expanded(
-
-               child: ListView(
-                 padding: const EdgeInsets.all(8),
-                 children: <Widget> [
-                   Text(
-                     "Slide to Change the Array Size and the Duration of Sort as per your convenience :)",
-                     textAlign: TextAlign.center,
-                     style: TextStyle(
-                       fontSize: 20.0,
-                       fontWeight: FontWeight.bold,
-                     ),
-                   ),
-                   cardView(Colors.teal,250,
-                     Column(
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       mainAxisAlignment:MainAxisAlignment.center,
-                       children: <Widget>[
-                         Text(
-                           "Array Size",
-                           style: TextStyle(
-                             fontSize: 35.0,
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white,
-
-                           ),
-
-                         ),
-                         SizedBox(
-                           height: 10.0,
-                         ),
-                         Row(
-                           crossAxisAlignment: CrossAxisAlignment.baseline,
-                           textBaseline: TextBaseline.alphabetic ,
-                           mainAxisAlignment: MainAxisAlignment.center,
-
-                           children: <Widget>[
-
-
-                             Text(
-
-                               arraysize.toString(),style:
-                             TextStyle(
-                               fontSize: 50.0,
-                               fontWeight: FontWeight.bold,
-                               color: Colors.pink,
-                             ),
-                             ),
-
-                           ],
-                         ),
-                         SliderTheme(
-                           data: SliderTheme.of(context).copyWith(
-                             activeTrackColor: Colors.black,
-                             thumbColor: Color(0xFFEB1555),
-                             overlayColor: Color(0x29EB1555),
-                             overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
-                             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
-                           ),
-                           child: Slider(
-                             max: 500,
-                             min: 5,
-                             value: arraysize.toDouble(),
-
-
-                             inactiveColor: Colors.white,
-
-                             onChanged: (double value){
-
-                               setState(() {
-
-                                 arraysize=value.round();
-                                 randomise();
-                               });
-
-                             },
-                           ),
-                         )
-
-                       ],
-                     ),),
-                   cardView(Colors.teal,250,
-                     Column(
-                       crossAxisAlignment: CrossAxisAlignment.center,
-                       mainAxisAlignment:MainAxisAlignment.center,
-                       children: <Widget>[
-                         Text(
-                           "Duration",
-                           style: TextStyle(
-                             fontSize: 35.0,
-                             fontWeight: FontWeight.bold,
-                             color: Colors.white,
-
-                           ),
-
-                         ),
-                         SizedBox(
-                           height: 10.0,
-                         ),
-                         Row(
-                           crossAxisAlignment: CrossAxisAlignment.baseline,
-                           textBaseline: TextBaseline.alphabetic ,
-                           mainAxisAlignment: MainAxisAlignment.center,
-
-                           children: <Widget>[
-
-
-                             Text(
-
-                               duration.toString(),style:
-                             TextStyle(
-                               fontSize: 50.0,
-                               fontWeight: FontWeight.bold,
-                               color: Colors.pink,
-                             ),
-                             ),
-                             Text(
-
-                               " ms",style:
-                             TextStyle(
-                               fontSize: 25.0,
-                               color: Colors.white,
-                               fontWeight: FontWeight.bold,
-                             ),
-                             ),
-                           ],
-                         ),
-                         SliderTheme(
-                           data: SliderTheme.of(context).copyWith(
-                             activeTrackColor: Colors.black,
-                             thumbColor: Color(0xFFEB1555),
-                             overlayColor: Color(0x29EB1555),
-                             overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
-                             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
-                           ),
-                           child: Slider(
-                             max: 5000,
-                             min: 1,
-                             value: duration.toDouble(),
-
-
-                             inactiveColor: Colors.white,
-
-                             onChanged: (double value){
-
-                               setState(() {
-
-                                 duration=value.round();
-                               });
-                             },
-                           ),
-                         )
-
-                       ],
-                     ),),
-                 ], ),),);});
-   });
 
  }
  randomise()
@@ -526,7 +364,7 @@ class _TestScreen extends State<TestScreen> {
 
                 }
 
-                title = newValue;
+                dropdownValue = newValue;
               });
             },
             items: <String>['Merge Sort', 'Quick Sort',
@@ -623,7 +461,195 @@ color: Colors.blue,
              color: Colors.yellow,
              onPressed: (){
                setState(() {
-                menu();
+                 showModalBottomSheet(context: context, builder: (builder)
+                 {
+                   return StatefulBuilder(
+                       builder: (context, setState) {
+                         return Container(
+
+
+                           child: ListView(
+                             padding: const EdgeInsets.all(8),
+                             children: <Widget> [
+                               SizedBox(
+                                 height: 10.0,
+                                 child:
+                                 Divider(
+                                   color: Colors.teal.shade100,
+                                   height: 50.0,
+                                 ),
+                               ),
+                               Text(
+                                 "Slide to Change the Array Size and the Duration of Sort as per your convenience :)",
+                                 textAlign: TextAlign.center,
+                                 style: TextStyle(
+                                   fontSize: 20.0,
+                                   fontWeight: FontWeight.bold,
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: 10.0,
+                               ),
+                               Text(
+                                 "If you are using sorting algorithms with O(n^2) time complexity then decrease the duration to see the result fast :)",
+                                 textAlign: TextAlign.center,
+                                 style: TextStyle(
+                                   fontSize: 20.0,
+                                   fontWeight: FontWeight.bold,
+                                 ),
+                               ),
+                               SizedBox(
+                                 height: 10.0,
+                                 child:
+                                 Divider(
+                                   color: Colors.teal,
+                                   height: 50.0,
+                                 ),
+                               ),
+                               cardView(Colors.teal,250,
+                                 Column(
+                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                   mainAxisAlignment:MainAxisAlignment.center,
+                                   children: <Widget>[
+                                     Text(
+                                       "Array Size",
+                                       style: TextStyle(
+                                         fontSize: 35.0,
+                                         fontWeight: FontWeight.bold,
+                                         color: Colors.white,
+
+                                       ),
+
+                                     ),
+                                     SizedBox(
+                                       height: 10.0,
+                                     ),
+                                     Row(
+                                       crossAxisAlignment: CrossAxisAlignment.baseline,
+                                       textBaseline: TextBaseline.alphabetic ,
+                                       mainAxisAlignment: MainAxisAlignment.center,
+
+                                       children: <Widget>[
+
+
+                                         Text(
+
+                                           arraysize.toString(),style:
+                                         TextStyle(
+                                           fontSize: 50.0,
+                                           fontWeight: FontWeight.bold,
+                                           color: Colors.pink,
+                                         ),
+                                         ),
+
+                                       ],
+                                     ),
+                                     SliderTheme(
+                                       data: SliderTheme.of(context).copyWith(
+                                         activeTrackColor: Colors.black,
+                                         thumbColor: Color(0xFFEB1555),
+                                         overlayColor: Color(0x29EB1555),
+                                         overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                                         thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                                       ),
+                                       child: Slider(
+                                         max: 500,
+                                         min: 5,
+                                         value: arraysize.toDouble(),
+
+
+                                         inactiveColor: Colors.white,
+
+                                         onChanged: (double value){
+
+                                           setState(() {
+
+                                             arraysize=value.round();
+                                             randomise();
+                                           });
+
+                                         },
+                                       ),
+                                     )
+
+                                   ],
+                                 ),),
+                               cardView(Colors.teal,250,
+                                 Column(
+                                   crossAxisAlignment: CrossAxisAlignment.center,
+                                   mainAxisAlignment:MainAxisAlignment.center,
+                                   children: <Widget>[
+                                     Text(
+                                       "Duration",
+                                       style: TextStyle(
+                                         fontSize: 35.0,
+                                         fontWeight: FontWeight.bold,
+                                         color: Colors.white,
+
+                                       ),
+
+                                     ),
+                                     SizedBox(
+                                       height: 10.0,
+                                     ),
+                                     Row(
+                                       crossAxisAlignment: CrossAxisAlignment.baseline,
+                                       textBaseline: TextBaseline.alphabetic ,
+                                       mainAxisAlignment: MainAxisAlignment.center,
+
+                                       children: <Widget>[
+
+
+                                         Text(
+
+                                           duration.toString(),style:
+                                         TextStyle(
+                                           fontSize: 50.0,
+                                           fontWeight: FontWeight.bold,
+                                           color: Colors.pink,
+                                         ),
+                                         ),
+                                         Text(
+
+                                           " ms",style:
+                                         TextStyle(
+                                           fontSize: 25.0,
+                                           color: Colors.white,
+                                           fontWeight: FontWeight.bold,
+                                         ),
+                                         ),
+                                       ],
+                                     ),
+                                     SliderTheme(
+                                       data: SliderTheme.of(context).copyWith(
+                                         activeTrackColor: Colors.black,
+                                         thumbColor: Color(0xFFEB1555),
+                                         overlayColor: Color(0x29EB1555),
+                                         overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                                         thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                                       ),
+                                       child: Slider(
+                                         max: 5000,
+                                         min: 1,
+                                         value: duration.toDouble(),
+
+
+                                         inactiveColor: Colors.white,
+
+                                         onChanged: (double value){
+
+                                           setState(() {
+
+                                             duration=value.round();
+                                           });
+                                         },
+                                       ),
+                                     )
+
+                                   ],
+                                 ),),
+                             ], ),);});
+                 });
                });
              },
              child: Text(
