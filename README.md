@@ -8,7 +8,7 @@ ___
 
 ___
 
-### For contributing to this project fork this repo or clone it on your local machine by the following:
+### For contributing to this project fork this repository or clone it on your local machine by the following:
 
 ```
 git clone https://github.com/singhalpranav22/Array-Visualiser-App.git
