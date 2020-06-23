@@ -1,6 +1,6 @@
 # Array-Visualiser
 
-A Flutter App that helps you visualises the various sorting algorithms.
+A Flutter App that helps you visualise the various sorting algorithms.
 ___
 
 ## WebApp Link
