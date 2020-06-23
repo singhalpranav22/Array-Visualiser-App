@@ -16,13 +16,21 @@ class TestScreen extends StatefulWidget {
 
 class _TestScreen extends State<TestScreen> {
 
-
+  int s=0;
   int arraysize=100;
    var duration=500;
   List<int> nums=[];
   StreamController<List<int>> _streamController;
   Stream<List<int>> _stream;
 
+  void handleClick(String value) {
+    switch (value) {
+      case 'Logout':
+        break;
+      case 'Settings':
+        break;
+    }
+  }
  menu()
  {
    showModalBottomSheet(context: context, builder: (builder)
@@ -190,7 +198,7 @@ class _TestScreen extends State<TestScreen> {
     _streamController.add(nums);
   }
 
- sort() async{
+ bubblesort() async {
    for (int i = 0; i < nums.length; ++i) {
      for (int j = 0; j < nums.length - i - 1; ++j) {
        if (nums[j] > nums[j + 1]) {
@@ -198,13 +206,170 @@ class _TestScreen extends State<TestScreen> {
          nums[j] = nums[j + 1];
          nums[j + 1] = temp;
        }
-     await Future.delayed(Duration(microseconds: duration));
-      _streamController.add(nums);
+       await Future.delayed(Duration(microseconds: duration));
+       _streamController.add(nums);
+     }
+   }
+ }
+   selectionSort() async {
+     for (int i = 0; i < nums.length; i++) {
+       for (int j = i + 1; j < nums.length; j++) {
+         if ( nums[i] > nums[j]) {
+           int temp = nums[j];
+           nums[j] = nums[i];
+          nums[i] = temp;
+         }
+
+         await Future.delayed(Duration(microseconds: duration));
+
+         _streamController.add(nums);
+       }
      }
    }
 
 
- }
+
+  insertionSort() async {
+    for (int i = 1; i < nums.length; i++) {
+      int temp = nums[i];
+      int j = i - 1;
+      while (j >= 0 && temp < nums[j]) {
+        nums[j + 1] = nums[j];
+        --j;
+        await Future.delayed(Duration(microseconds: duration));
+
+        _streamController.add(nums);
+      }
+      nums[j + 1] = temp;
+      await Future.delayed(Duration(microseconds: duration));
+
+      _streamController.add(nums);
+    }
+  }
+
+  mergeSort(int leftIndex, int rightIndex) async {
+    Future<int> merge(int leftIndex, int middleIndex, int rightIndex) async {
+      int leftSize = middleIndex - leftIndex + 1;
+      int rightSize = rightIndex - middleIndex;
+
+      List leftList = new List(leftSize);
+      List rightList = new List(rightSize);
+
+      for (int i = 0; i < leftSize; i++) leftList[i] = nums[leftIndex + i];
+      for (int j = 0; j < rightSize; j++) rightList[j] = nums[middleIndex + j + 1];
+
+      int i = 0, j = 0;
+      int k = leftIndex;
+
+      while (i < leftSize && j < rightSize) {
+        if (leftList[i] <= rightList[j]) {
+          nums[k] = leftList[i];
+          i++;
+        } else {
+         nums[k] = rightList[j];
+          j++;
+        }
+
+        await Future.delayed(Duration(microseconds: duration));
+
+
+        _streamController.add(nums);
+
+        k++;
+      }
+
+      while (i < leftSize) {
+        nums[k] = leftList[i];
+        i++;
+        k++;
+
+        await Future.delayed(Duration(microseconds: duration));
+        _streamController.add(nums);
+      }
+
+      while (j < rightSize) {
+        nums[k] = rightList[j];
+        j++;
+        k++;
+
+        await Future.delayed(Duration(microseconds: duration));
+        _streamController.add(nums);
+      }
+    }
+
+    if (leftIndex < rightIndex) {
+      int middleIndex = (rightIndex + leftIndex) ~/ 2;
+
+      await mergeSort(leftIndex, middleIndex);
+      await mergeSort(middleIndex + 1, rightIndex);
+
+      await Future.delayed(Duration(microseconds: duration));
+
+      _streamController.add(nums);
+
+      await merge(leftIndex, middleIndex, rightIndex);
+    }
+  }
+
+  quickSort(int leftIndex, int rightIndex) async {
+    Future<int> _partition(int left, int right) async {
+      int p = (left + (right - left) / 2).toInt();
+
+      var temp = nums[p];
+      nums[p] = nums[right];
+      nums[right] = temp;
+      await Future.delayed(Duration(microseconds: duration));
+
+
+      _streamController.add(nums);
+
+      int cursor = left;
+
+      for (int i = left; i < right; i++) {
+        if (cf(nums[i], nums[right]) <= 0) {
+          var temp = nums[i];
+         nums[i] = nums[cursor];
+          nums[cursor] = temp;
+          cursor++;
+
+          await Future.delayed(Duration(microseconds: duration));
+
+
+          _streamController.add(nums);
+        }
+      }
+
+      temp = nums[right];
+      nums[right] =nums[cursor];
+      nums[cursor] = temp;
+
+      await Future.delayed(Duration(microseconds: duration));
+
+
+      _streamController.add(nums);
+
+      return cursor;
+    }
+
+    if (leftIndex < rightIndex) {
+      int p = await _partition(leftIndex, rightIndex);
+
+      await quickSort(leftIndex, p - 1);
+
+      await quickSort(p + 1, rightIndex);
+    }
+  }
+
+  cf(int a, int b) {
+    if (a < b) {
+      return -1;
+    } else if (a > b) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
  @override
   void initState() {
     // TODO: implement initState
@@ -221,6 +386,19 @@ class _TestScreen extends State<TestScreen> {
       appBar: AppBar(
 
         title: Text(widget.title),
+        actions: <Widget>[
+          PopupMenuButton<String>(
+            onSelected: handleClick,
+            itemBuilder: (BuildContext context) {
+              return {'Logout', 'Settings'}.map((String choice) {
+                return PopupMenuItem<String>(
+                  value: choice,
+                  child: Text(choice),
+                );
+              }).toList();
+            },
+          ),
+        ],
       ),body: Container(
 
       child: StreamBuilder<Object>(
@@ -251,7 +429,13 @@ class _TestScreen extends State<TestScreen> {
       Expanded(
            child: FlatButton(
 
-             onPressed: sort,
+             onPressed: () async
+             {
+               await quickSort(0,arraysize-1);
+             }
+
+
+             ,
              child: Text(
                  "SORT"
              ),
