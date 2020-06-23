@@ -253,6 +253,38 @@ class _TestScreen extends State<TestScreen> {
     }
   }
 
+  heapSort() async {
+    for (int i = nums.length ~/ 2; i >= 0; i--) {
+      await heapify(nums, nums.length, i);
+      _streamController.add(nums);
+    }
+    for (int i = nums.length - 1; i >= 0; i--) {
+      int temp = nums[0];
+      nums[0] = nums[i];
+      nums[i] = temp;
+      await heapify(nums, i, 0);
+      _streamController.add(nums);
+    }
+  }
+
+  heapify(List<int> arr, int n, int i) async {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l < n && arr[l] > arr[largest]) largest = l;
+
+    if (r < n && arr[r] > arr[largest]) largest = r;
+
+    if (largest != i) {
+      int temp = nums[i];
+      nums[i] = nums[largest];
+      nums[largest] = temp;
+      heapify(arr, n, largest);
+    }
+    await Future.delayed(Duration(microseconds: duration));
+  }
+
  @override
   void initState() {
     // TODO: implement initState
@@ -285,6 +317,8 @@ class _TestScreen extends State<TestScreen> {
       case 4:
         title="Insertion Sort";
         break;
+      case 5:
+        title="Heap Sort";
 
     }
     return Scaffold(
@@ -361,6 +395,14 @@ class _TestScreen extends State<TestScreen> {
                     });
 
                     break;
+                  case 'Heap Sort':
+                    setState(() {
+                      s=5;
+                      print(s);
+                    });
+
+                    break;
+
 
                 }
 
@@ -368,7 +410,7 @@ class _TestScreen extends State<TestScreen> {
               });
             },
             items: <String>['Merge Sort', 'Quick Sort',
-            'Selection Sort','Bubble Sort','Insertion Sort']
+            'Selection Sort','Bubble Sort','Insertion Sort','Heap Sort']
                 .map<DropdownMenuItem<String>>((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -427,6 +469,9 @@ class _TestScreen extends State<TestScreen> {
                    break;
                  case 4:
                    insertionSort();
+                   break;
+                 case 5:
+                   await heapSort();
                    break;
 
                }
