@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:math';
-
+import 'package:arrayvisualiser/components/cardview.dart';
 import 'package:flutter/material.dart';
 
 
@@ -17,16 +17,175 @@ class TestScreen extends StatefulWidget {
 class _TestScreen extends State<TestScreen> {
 
 
-  int arraysize=500;
+  int arraysize=100;
+   var duration=500;
   List<int> nums=[];
   StreamController<List<int>> _streamController;
   Stream<List<int>> _stream;
+
+ menu()
+ {
+   showModalBottomSheet(context: context, builder: (builder)
+   {
+     return StatefulBuilder(
+         builder: (context, setState) {
+           return Container(
+
+             child: Expanded(
+
+               child: ListView(
+                 padding: const EdgeInsets.all(8),
+                 children: <Widget> [
+                   cardView(Colors.teal,250,
+                     Column(
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       mainAxisAlignment:MainAxisAlignment.center,
+                       children: <Widget>[
+                         Text(
+                           "Array Size",
+                           style: TextStyle(
+                             fontSize: 25.0,
+                             color: Colors.white,
+
+                           ),
+
+                         ),
+                         SizedBox(
+                           height: 10.0,
+                         ),
+                         Row(
+                           crossAxisAlignment: CrossAxisAlignment.baseline,
+                           textBaseline: TextBaseline.alphabetic ,
+                           mainAxisAlignment: MainAxisAlignment.center,
+
+                           children: <Widget>[
+
+
+                             Text(
+
+                               arraysize.toString(),style:
+                             TextStyle(
+                               fontSize: 50.0,
+                               fontWeight: FontWeight.bold,
+                               color: Colors.pink,
+                             ),
+                             ),
+
+                           ],
+                         ),
+                         SliderTheme(
+                           data: SliderTheme.of(context).copyWith(
+                             activeTrackColor: Colors.white,
+                             thumbColor: Color(0xFFEB1555),
+                             overlayColor: Color(0x29EB1555),
+                             overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                           ),
+                           child: Slider(
+                             max: 500,
+                             min: 5,
+                             value: arraysize.toDouble(),
+
+
+                             inactiveColor: Colors.black,
+
+                             onChanged: (double value){
+
+                               setState(() {
+
+                                 arraysize=value.round();
+                                 randomise();
+                               });
+
+                             },
+                           ),
+                         )
+
+                       ],
+                     ),),
+                   cardView(Colors.teal,250,
+                     Column(
+                       crossAxisAlignment: CrossAxisAlignment.center,
+                       mainAxisAlignment:MainAxisAlignment.center,
+                       children: <Widget>[
+                         Text(
+                           "Duration",
+                           style: TextStyle(
+                             fontSize: 25.0,
+                             color: Colors.white,
+
+                           ),
+
+                         ),
+                         SizedBox(
+                           height: 10.0,
+                         ),
+                         Row(
+                           crossAxisAlignment: CrossAxisAlignment.baseline,
+                           textBaseline: TextBaseline.alphabetic ,
+                           mainAxisAlignment: MainAxisAlignment.center,
+
+                           children: <Widget>[
+
+
+                             Text(
+
+                               duration.toString(),style:
+                             TextStyle(
+                               fontSize: 50.0,
+                               fontWeight: FontWeight.bold,
+                               color: Colors.pink,
+                             ),
+                             ),
+                             Text(
+
+                               " ms",style:
+                             TextStyle(
+                               fontSize: 25.0,
+                               color: Colors.white,
+                               fontWeight: FontWeight.bold,
+                             ),
+                             ),
+                           ],
+                         ),
+                         SliderTheme(
+                           data: SliderTheme.of(context).copyWith(
+                             activeTrackColor: Colors.white,
+                             thumbColor: Color(0xFFEB1555),
+                             overlayColor: Color(0x29EB1555),
+                             overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
+                             thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
+                           ),
+                           child: Slider(
+                             max: 50000,
+                             min: 1,
+                             value: duration.toDouble(),
+
+
+                             inactiveColor: Colors.black,
+
+                             onChanged: (double value){
+
+                               setState(() {
+
+                                 duration=value.round();
+                               });
+                             },
+                           ),
+                         )
+
+                       ],
+                     ),),
+                 ], ),),);});
+   });
+
+ }
  randomise()
   {
     nums.clear();
      for(int i=0;i<arraysize;i++)
        {
-         nums.add(Random().nextInt(arraysize));
+         nums.add(Random().nextInt(490)+10);
        }
     _streamController.add(nums);
   }
@@ -39,7 +198,7 @@ class _TestScreen extends State<TestScreen> {
          nums[j] = nums[j + 1];
          nums[j + 1] = temp;
        }
-     await Future.delayed(Duration(microseconds: 1));
+     await Future.delayed(Duration(microseconds: duration));
       _streamController.add(nums);
      }
    }
@@ -108,6 +267,11 @@ class _TestScreen extends State<TestScreen> {
          ),
          Expanded(
            child: FlatButton(
+             onPressed: (){
+               setState(() {
+                menu();
+               });
+             },
              child: Text(
                  "Change Dimensions"
              ),
