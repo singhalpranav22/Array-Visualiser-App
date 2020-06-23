@@ -17,18 +17,53 @@ class TestScreen extends StatefulWidget {
 class _TestScreen extends State<TestScreen> {
 
   int s=0;
-  int arraysize=100;
-   var duration=500;
+  int arraysize=250;
+   var duration=3000;
+   String dropdownValue="Merge Sort";
   List<int> nums=[];
   StreamController<List<int>> _streamController;
   Stream<List<int>> _stream;
 
   void handleClick(String value) {
     switch (value) {
-      case 'Logout':
+      case 'Merge Sort':
+
+        setState(() {
+          s=0;
+        });
+
+          break;
+
+      case 'Quick Sort':
+        setState(() {
+          s=1;
+          print(s);
+        });
+
         break;
-      case 'Settings':
+
+      case 'Selection Sort':
+        setState(() {
+          s=2;
+          print(s);
+        });
+
         break;
+      case 'Bubble Sort':
+        setState(() {
+          s=3;
+          print(s);
+        });
+
+        break;
+      case 'Insertion Sort':
+        setState(() {
+          s=4;
+          print(s);
+        });
+
+        break;
+
     }
   }
  menu()
@@ -44,6 +79,14 @@ class _TestScreen extends State<TestScreen> {
                child: ListView(
                  padding: const EdgeInsets.all(8),
                  children: <Widget> [
+                   Text(
+                     "Slide to Change the Array Size and the Duration of Sort as per your convenience :)",
+                     textAlign: TextAlign.center,
+                     style: TextStyle(
+                       fontSize: 20.0,
+                       fontWeight: FontWeight.bold,
+                     ),
+                   ),
                    cardView(Colors.teal,250,
                      Column(
                        crossAxisAlignment: CrossAxisAlignment.center,
@@ -52,7 +95,8 @@ class _TestScreen extends State<TestScreen> {
                          Text(
                            "Array Size",
                            style: TextStyle(
-                             fontSize: 25.0,
+                             fontSize: 35.0,
+                             fontWeight: FontWeight.bold,
                              color: Colors.white,
 
                            ),
@@ -83,7 +127,7 @@ class _TestScreen extends State<TestScreen> {
                          ),
                          SliderTheme(
                            data: SliderTheme.of(context).copyWith(
-                             activeTrackColor: Colors.white,
+                             activeTrackColor: Colors.black,
                              thumbColor: Color(0xFFEB1555),
                              overlayColor: Color(0x29EB1555),
                              overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
@@ -95,7 +139,7 @@ class _TestScreen extends State<TestScreen> {
                              value: arraysize.toDouble(),
 
 
-                             inactiveColor: Colors.black,
+                             inactiveColor: Colors.white,
 
                              onChanged: (double value){
 
@@ -119,7 +163,8 @@ class _TestScreen extends State<TestScreen> {
                          Text(
                            "Duration",
                            style: TextStyle(
-                             fontSize: 25.0,
+                             fontSize: 35.0,
+                             fontWeight: FontWeight.bold,
                              color: Colors.white,
 
                            ),
@@ -158,19 +203,19 @@ class _TestScreen extends State<TestScreen> {
                          ),
                          SliderTheme(
                            data: SliderTheme.of(context).copyWith(
-                             activeTrackColor: Colors.white,
+                             activeTrackColor: Colors.black,
                              thumbColor: Color(0xFFEB1555),
                              overlayColor: Color(0x29EB1555),
                              overlayShape: RoundSliderOverlayShape(overlayRadius: 20.0),
                              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 10.0),
                            ),
                            child: Slider(
-                             max: 50000,
+                             max: 5000,
                              min: 1,
                              value: duration.toDouble(),
 
 
-                             inactiveColor: Colors.black,
+                             inactiveColor: Colors.white,
 
                              onChanged: (double value){
 
@@ -382,22 +427,117 @@ class _TestScreen extends State<TestScreen> {
   @override
   Widget build(BuildContext context) {
 
+
+    String title;
+
+    switch(s)
+    {
+      case 0:
+        title="Merge Sort";
+        break;
+      case 1:
+        title="Quick Sort";
+        break;
+      case 2:
+        title="Selection Sort";
+        break;
+      case 3:
+        title="Bubble Sort";
+        break;
+      case 4:
+        title="Insertion Sort";
+        break;
+
+    }
     return Scaffold(
       appBar: AppBar(
 
-        title: Text(widget.title),
+        title: Text("Sort iT!"),
         actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: handleClick,
-            itemBuilder: (BuildContext context) {
-              return {'Logout', 'Settings'}.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(choice),
-                );
-              }).toList();
+//          PopupMenuButton<String>(
+//            color: Colors.white,
+//            onSelected: handleClick,
+//            itemBuilder: (BuildContext context) {
+//              return {'Merge Sort', 'Quick Sort',
+//              'Selection Sort','Bubble Sort','Insertion Sort'
+//              }.map((String choice) {
+//                return PopupMenuItem<String>(
+//                  value: choice,
+//                  child: Text(choice),
+//                );
+//              }).toList();
+//            },
+//          ),
+          DropdownButton<String>(
+            hint: Text("Change Algo"),
+            value: dropdownValue,
+            icon: Icon(Icons.arrow_downward,
+            color: Colors.red,),
+            iconSize: 24,
+            elevation: 16,
+            style: TextStyle(color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize:  18.0
+            ,),
+            underline: Container(
+              height: 6,
+              color: Colors.blue,
+            ),
+            onChanged: (String newValue) {
+              setState(() {
+                switch (newValue) {
+                  case 'Merge Sort':
+
+                    setState(() {
+                      s=0;
+                    });
+
+                    break;
+
+                  case 'Quick Sort':
+                    setState(() {
+                      s=1;
+                      print(s);
+                    });
+
+                    break;
+
+                  case 'Selection Sort':
+                    setState(() {
+                      s=2;
+                      print(s);
+                    });
+
+                    break;
+                  case 'Bubble Sort':
+                    setState(() {
+                      s=3;
+                      print(s);
+                    });
+
+                    break;
+                  case 'Insertion Sort':
+                    setState(() {
+                      s=4;
+                      print(s);
+                    });
+
+                    break;
+
+                }
+
+                title = newValue;
+              });
             },
-          ),
+            items: <String>['Merge Sort', 'Quick Sort',
+            'Selection Sort','Bubble Sort','Insertion Sort']
+                .map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          )
         ],
       ),body: Container(
 
@@ -429,35 +569,70 @@ class _TestScreen extends State<TestScreen> {
       Expanded(
            child: FlatButton(
 
-             onPressed: () async
-             {
-               await quickSort(0,arraysize-1);
+  color: Colors.red,
+             onPressed:
+             () async{
+
+               switch (s)
+               {
+                 case 0:
+                   await mergeSort(0,arraysize-1);
+                   break;
+                 case 1:
+                   await quickSort(0,arraysize-1);
+                   break;
+                 case 2:
+                    selectionSort();
+                   break;
+                 case 3:
+                   bubblesort();
+                   break;
+                 case 4:
+                   insertionSort();
+                   break;
+
+               }
              }
 
 
              ,
              child: Text(
-                 "SORT"
+                 title,
+               textAlign: TextAlign.center,
+               style: TextStyle(
+                 fontWeight: FontWeight.bold,
+               ),
              ),
            ),
          ),
          Expanded(
            child: FlatButton(
+color: Colors.blue,
              onPressed: randomise,
              child: Text(
-                 "RANDOMISE"
+                 "RANDOMISE",
+               textAlign: TextAlign.center,
+               style: TextStyle(
+                 fontWeight: FontWeight.bold,
+               ),
              ),
            ),
          ),
          Expanded(
            child: FlatButton(
+             color: Colors.yellow,
              onPressed: (){
                setState(() {
                 menu();
                });
              },
              child: Text(
-                 "Change Dimensions"
+                 "SETTINGS",
+               textAlign: TextAlign.center,
+               style: TextStyle(
+                 fontWeight: FontWeight.bold,
+
+               ),
              ),
            ),
          )

@@ -110,3 +110,8 @@ class cardView extends StatelessWidget {
 //        ),),
 //          ),);
 //        });
+
+//() async
+//{
+//await quickSort(0,arraysize-1);
+//}
