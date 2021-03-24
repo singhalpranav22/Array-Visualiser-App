@@ -1,6 +1,6 @@
 # Array-Visualiser
 
-A Flutter App that helps you visualise the various sorting algorithms.(Heap Sort, Merge Sort, Quick Sort etc.)
+A Flutter App that helps you visualise the various sorting algorithms.(Heap Sort, Merge Sort, Quick Sort, Bubble Sort etc.)
 ___
 
 # WebApp Link
